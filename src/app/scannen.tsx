@@ -5,6 +5,7 @@ import { router, useFocusEffect, useIsFocused } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useRef, useState } from 'react';
 import { Linking, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { KeyboardStickyView } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Knopf } from '@/components/knopf';
@@ -126,42 +127,45 @@ export default function Scannen() {
         ) : null}
       </View>
 
-      <View style={[styles.unten, { paddingBottom: ABSTAND.m + insets.bottom }]}>
-        <Pressable
-          accessibilityRole="switch"
-          accessibilityState={{ checked: licht }}
-          accessibilityLabel="Taschenlampe"
-          onPress={() => setLicht((an) => !an)}
-          style={({ pressed }) => [
-            styles.licht,
-            { backgroundColor: licht ? '#FFD54F' : 'rgba(255,255,255,0.16)', opacity: pressed ? 0.8 : 1 },
-          ]}>
-          <MaterialCommunityIcons name={licht ? 'flashlight' : 'flashlight-off'} size={30} color={licht ? '#1F1408' : '#fff'} />
-          <Text style={[styles.lichtText, { color: licht ? '#1F1408' : '#fff' }]}>{licht ? 'Licht aus' : 'Licht an'}</Text>
-        </Pressable>
-
-        <View style={styles.eingabeZeile}>
-          <TextInput
-            value={eingabe}
-            onChangeText={setEingabe}
-            onSubmitEditing={codeEingegeben}
-            placeholder="Code eintippen (z. B. K7Q F3M)"
-            placeholderTextColor="rgba(255,255,255,0.6)"
-            autoCapitalize="characters"
-            autoCorrect={false}
-            returnKeyType="go"
-            maxLength={9}
-            style={styles.eingabe}
-          />
+      {/* Wandert mit der Tastatur nach oben, damit „Code eintippen“ sichtbar bleibt. */}
+      <KeyboardStickyView style={styles.unten} offset={{ closed: 0, opened: insets.bottom }}>
+        <View style={[styles.untenInhalt, { paddingBottom: ABSTAND.m + insets.bottom }]}>
           <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Kiste mit Code öffnen"
-            onPress={codeEingegeben}
-            style={[styles.los, { backgroundColor: f.akzent }]}>
-            <MaterialCommunityIcons name="arrow-right" size={24} color={f.aufAkzent} />
+            accessibilityRole="switch"
+            accessibilityState={{ checked: licht }}
+            accessibilityLabel="Taschenlampe"
+            onPress={() => setLicht((an) => !an)}
+            style={({ pressed }) => [
+              styles.licht,
+              { backgroundColor: licht ? '#FFD54F' : 'rgba(255,255,255,0.16)', opacity: pressed ? 0.8 : 1 },
+            ]}>
+            <MaterialCommunityIcons name={licht ? 'flashlight' : 'flashlight-off'} size={30} color={licht ? '#1F1408' : '#fff'} />
+            <Text style={[styles.lichtText, { color: licht ? '#1F1408' : '#fff' }]}>{licht ? 'Licht aus' : 'Licht an'}</Text>
           </Pressable>
+
+          <View style={styles.eingabeZeile}>
+            <TextInput
+              value={eingabe}
+              onChangeText={setEingabe}
+              onSubmitEditing={codeEingegeben}
+              placeholder="Code eintippen (z. B. K7Q F3M)"
+              placeholderTextColor="rgba(255,255,255,0.6)"
+              autoCapitalize="characters"
+              autoCorrect={false}
+              returnKeyType="go"
+              maxLength={9}
+              style={styles.eingabe}
+            />
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Kiste mit Code öffnen"
+              onPress={codeEingegeben}
+              style={[styles.los, { backgroundColor: f.akzent }]}>
+              <MaterialCommunityIcons name="arrow-right" size={24} color={f.aufAkzent} />
+            </Pressable>
+          </View>
         </View>
-      </View>
+      </KeyboardStickyView>
     </View>
   );
 }
@@ -188,11 +192,8 @@ const styles = StyleSheet.create({
   },
   hinweis: { backgroundColor: 'rgba(0,0,0,0.75)', paddingHorizontal: 16, paddingVertical: 10, borderRadius: 12, maxWidth: '85%' },
   hinweisText: { color: '#fff', fontSize: 15, textAlign: 'center' },
-  unten: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
+  unten: { position: 'absolute', left: 0, right: 0, bottom: 0 },
+  untenInhalt: {
     paddingHorizontal: ABSTAND.m,
     paddingTop: ABSTAND.m,
     gap: ABSTAND.m,

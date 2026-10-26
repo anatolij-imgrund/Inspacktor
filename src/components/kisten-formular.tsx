@@ -1,7 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { eingabeStil, Feld, formularStile, FotoWaehler, type FotoAuswahl } from '@/components/formular-teile';
@@ -52,7 +53,9 @@ export function KistenFormular({ anfang, anfangsFoto, standortVorschlaege, speic
   });
 
   return (
-    <ScrollView
+    <KeyboardAwareScrollView
+      // Abstand zwischen aktivem Feld und Tastatur; scrollt das Feld automatisch nach oben.
+      bottomOffset={ABSTAND.l}
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={[formularStile.inhalt, { paddingBottom: ABSTAND.l + unten }]}>
       <FotoWaehler foto={foto} onAendern={setFoto} />
@@ -131,7 +134,7 @@ export function KistenFormular({ anfang, anfangsFoto, standortVorschlaege, speic
       </Feld>
 
       <Knopf titel={speichernText} icon="check" onPress={speichern} laedt={speichert} />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
 

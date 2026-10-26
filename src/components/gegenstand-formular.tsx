@@ -2,7 +2,8 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Alert, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { eingabeStil, Feld, formularStile, FotoWaehler, type FotoAuswahl } from '@/components/formular-teile';
@@ -54,7 +55,9 @@ export function GegenstandFormular({ anfang, anfangsFoto, speichernText, mitWeit
   }
 
   return (
-    <ScrollView
+    <KeyboardAwareScrollView
+      // Abstand zwischen aktivem Feld und Tastatur; scrollt das Feld automatisch nach oben.
+      bottomOffset={ABSTAND.l}
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={[formularStile.inhalt, { paddingBottom: ABSTAND.l + unten }]}>
       {hinweis ? (
@@ -121,7 +124,7 @@ export function GegenstandFormular({ anfang, anfangsFoto, speichernText, mitWeit
         laedt={speichert === 'normal'}
         deaktiviert={speichert === 'weiter'}
       />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
 

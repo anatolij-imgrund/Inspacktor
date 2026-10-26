@@ -2,6 +2,7 @@ import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import { SQLiteProvider } from 'expo-sqlite';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'react-native';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 import { DATENBANK_NAME, initialisiere } from '@/db/datenbank';
 import { FARBEN } from '@/theme/farben';
@@ -11,10 +12,13 @@ export const unstable_settings = { anchor: 'index' };
 
 export default function RootLayout() {
   return (
-    <SQLiteProvider databaseName={DATENBANK_NAME} onInit={initialisiere}>
-      {/* SQLiteProvider ist memo – alles Theme-Abhängige muss darunter in eigener Komponente leben. */}
-      <Navigation />
-    </SQLiteProvider>
+    // KeyboardProvider meldet die Tastatur an die Formulare, damit Felder nicht verdeckt werden.
+    <KeyboardProvider>
+      <SQLiteProvider databaseName={DATENBANK_NAME} onInit={initialisiere}>
+        {/* SQLiteProvider ist memo – alles Theme-Abhängige muss darunter in eigener Komponente leben. */}
+        <Navigation />
+      </SQLiteProvider>
+    </KeyboardProvider>
   );
 }
 

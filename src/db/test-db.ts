@@ -5,6 +5,7 @@ import type { Db } from './datenbank';
 /** Nur für Tests: bildet die genutzten expo-sqlite-Methoden mit node:sqlite nach. */
 export function testDb(): Db & { schliessen(): void } {
   const db = new DatabaseSync(':memory:');
+  db.exec('PRAGMA foreign_keys = ON;');
   const p = (params: unknown[]) => params as SQLInputValue[];
   const adapter = {
     execAsync: (sql: string) => {

@@ -17,6 +17,16 @@ const MIGRATIONEN: string[] = [
      erstellt_am   TEXT NOT NULL,
      geaendert_am  TEXT NOT NULL
    );`,
+  `CREATE TABLE gegenstaende (
+     id            INTEGER PRIMARY KEY AUTOINCREMENT,
+     kiste_id      INTEGER NOT NULL REFERENCES kisten(id) ON DELETE CASCADE,
+     name          TEXT NOT NULL,
+     beschreibung  TEXT NOT NULL DEFAULT '',
+     foto          TEXT,
+     erstellt_am   TEXT NOT NULL,
+     geaendert_am  TEXT NOT NULL
+   );
+   CREATE INDEX gegenstaende_kiste ON gegenstaende(kiste_id);`,
 ];
 
 export const SCHEMA_VERSION = MIGRATIONEN.length;
@@ -39,6 +49,6 @@ export async function migriere(db: Db): Promise<void> {
 }
 
 export async function initialisiere(db: SQLiteDatabase): Promise<void> {
-  await db.execAsync('PRAGMA journal_mode = WAL;');
+  await db.execAsync('PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON;');
   await migriere(db);
 }

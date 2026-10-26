@@ -7,14 +7,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { KisteKarte } from '@/components/kiste-karte';
 import { KopfKnopf } from '@/components/kopf-knopf';
-import { alleKisten, filtereKisten, type Kiste } from '@/db/kisten';
+import { alleKisten, filtereKisten, passendeGegenstaende, type KisteUebersicht } from '@/db/kisten';
 import { ABSTAND, useFarben } from '@/theme/farben';
 
 export default function KistenListe() {
   const db = useSQLiteContext();
   const f = useFarben();
   const unten = useSafeAreaInsets().bottom;
-  const [kisten, setKisten] = useState<Kiste[] | null>(null);
+  const [kisten, setKisten] = useState<KisteUebersicht[] | null>(null);
   const [suche, setSuche] = useState('');
 
   useFocusEffect(
@@ -44,7 +44,7 @@ export default function KistenListe() {
           <TextInput
             value={suche}
             onChangeText={setSuche}
-            placeholder="Suchen: Inhalt, Standort, Code …"
+            placeholder="Suchen: Gegenstand, Standort, Code …"
             placeholderTextColor={f.textLeise}
             style={[styles.sucheEingabe, { color: f.text }]}
             returnKeyType="search"
@@ -64,6 +64,7 @@ export default function KistenListe() {
         renderItem={({ item }) => (
           <KisteKarte
             kiste={item}
+            treffer={passendeGegenstaende(item, suche)}
             onPress={() => router.push({ pathname: '/kiste/[code]', params: { code: item.code } })}
           />
         )}

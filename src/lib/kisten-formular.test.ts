@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { kistenFormularSchema } from './kisten-formular';
+import { gegenstandFormularSchema, kistenFormularSchema } from './kisten-formular';
 
 describe('Kisten-Formular', () => {
   it('schneidet Leerzeichen ab', () => {
@@ -18,5 +18,16 @@ describe('Kisten-Formular', () => {
   it('begrenzt die Länge', () => {
     const r = kistenFormularSchema.safeParse({ titel: 'x'.repeat(81), standort: '', beschreibung: '' });
     assert.equal(r.success, false);
+  });
+});
+
+describe('Gegenstand-Formular', () => {
+  it('verlangt einen Namen und schneidet Leerzeichen ab', () => {
+    assert.deepEqual(gegenstandFormularSchema.parse({ name: ' Jacke ', beschreibung: ' Gr. 116 ' }), {
+      name: 'Jacke',
+      beschreibung: 'Gr. 116',
+    });
+    const r = gegenstandFormularSchema.safeParse({ name: ' ', beschreibung: '' });
+    assert.equal(r.error?.issues[0]?.message, 'Bitte gib dem Gegenstand einen Namen.');
   });
 });

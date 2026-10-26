@@ -9,6 +9,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { EtikettAktionen } from '@/components/etikett-aktionen';
 import { Knopf } from '@/components/knopf';
 import { QrCode } from '@/components/qr-code';
+import { GegenstandZeile } from '@/components/gegenstand-zeile';
+import { gegenstaendeDerKiste, type Gegenstand } from '@/db/gegenstaende';
 import { kisteNachCode, loescheKiste, type Kiste } from '@/db/kisten';
 import { fotoUri, loescheFoto } from '@/lib/fotos';
 import { codeAnzeige, normalisiereCode, qrInhalt } from '@/lib/kisten-code';
@@ -22,10 +24,14 @@ export default function KisteAnsehen() {
   const f = useFarben();
   const unten = useSafeAreaInsets().bottom;
   const [kiste, setKiste] = useState<Kiste | null | undefined>(undefined);
+  const [gegenstaende, setGegenstaende] = useState<Gegenstand[]>([]);
 
   useFocusEffect(
     useCallback(() => {
-      void kisteNachCode(db, code).then(setKiste);
+      void kisteNachCode(db, code).then(async (k) => {
+        setGegenstaende(k ? await gegenstaendeDerKiste(db, k.id) : []);
+        setKiste(k);
+      });
     }, [db, code]),
   );
 
@@ -51,14 +57,18 @@ export default function KisteAnsehen() {
   }
 
   function loeschen(k: Kiste) {
-    Alert.alert('Kiste löschen?', `„${k.titel}“ wird mit Foto gelöscht. Das Etikett passt danach zu keiner Kiste mehr.`, [
+    const inhalt =
+      gegenstaende.length === 0
+        ? 'mit Foto'
+        : `mit ${gegenstaende.length === 1 ? 'einem Gegenstand' : `allen ${gegenstaende.length} Gegenständen`} und Fotos`;
+    Alert.alert('Kiste löschen?', `„${k.titel}“ wird ${inhalt} gelöscht. Das Etikett passt danach zu keiner Kiste mehr.`, [
       { text: 'Abbrechen', style: 'cancel' },
       {
         text: 'Löschen',
         style: 'destructive',
         onPress: () => {
-          void loescheKiste(db, k.code).then(() => {
-            loescheFoto(k.foto);
+          void loescheKiste(db, k.code).then((fotos) => {
+            fotos.forEach(loescheFoto);
             router.back();
           });
         },
@@ -95,10 +105,41 @@ export default function KisteAnsehen() {
       </View>
 
       <View style={[styles.karte, { backgroundColor: f.flaeche }]}>
-        <Text style={[styles.abschnitt, { color: f.textLeise }]}>Inhalt</Text>
+        <Text style={[styles.abschnitt, { color: f.textLeise }]}>Beschreibung</Text>
         <Text style={[styles.beschreibung, { color: kiste.beschreibung ? f.text : f.textLeise }]}>
           {kiste.beschreibung || 'Noch keine Beschreibung.'}
         </Text>
+      </View>
+
+      <View style={[styles.karte, { backgroundColor: f.flaeche }]}>
+        <Text style={[styles.abschnitt, { color: f.textLeise }]}>
+          Inhalt{gegenstaende.length > 0 ? ` · ${gegenstaende.length}` : ''}
+        </Text>
+        {gegenstaende.length === 0 ? (
+          <Text style={{ color: f.textLeise, marginBottom: ABSTAND.s }}>
+            Noch keine Gegenstände. Füge sie einzeln mit Foto hinzu – z. B. jedes Kleidungsstück mit Größe.
+          </Text>
+        ) : (
+          <View style={styles.gegenstaende}>
+            {gegenstaende.map((g) => (
+              <GegenstandZeile
+                key={g.id}
+                gegenstand={g}
+                onPress={() =>
+                  router.push({
+                    pathname: '/kiste/[code]/gegenstand/[id]',
+                    params: { code: kiste.code, id: String(g.id) },
+                  })
+                }
+              />
+            ))}
+          </View>
+        )}
+        <Knopf
+          titel="Gegenstand hinzufügen"
+          icon="plus"
+          onPress={() => router.push({ pathname: '/kiste/[code]/gegenstand/neu', params: { code: kiste.code } })}
+        />
       </View>
 
       <View style={[styles.karte, { backgroundColor: f.flaeche }]}>
@@ -149,6 +190,7 @@ const styles = StyleSheet.create({
   abschnitt: { fontSize: 13, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 0.5 },
   beschreibung: { fontSize: 16, lineHeight: 23 },
   knoepfe: { gap: ABSTAND.s },
+  gegenstaende: { marginBottom: ABSTAND.s },
   etikett: { flexDirection: 'row', alignItems: 'center', gap: ABSTAND.m, marginBottom: ABSTAND.s },
   qrRahmen: { borderRadius: 8, overflow: 'hidden' },
   etikettText: { flex: 1, gap: 4 },

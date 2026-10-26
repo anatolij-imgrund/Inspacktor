@@ -1,4 +1,4 @@
-import type { FotoAuswahl } from '@/components/kisten-formular';
+import type { FotoAuswahl } from '@/components/formular-teile';
 
 import { loescheFoto, uebernehmeFoto } from './fotos';
 

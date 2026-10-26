@@ -2,13 +2,21 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Image } from 'expo-image';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import type { Kiste } from '@/db/kisten';
+import type { KisteUebersicht } from '@/db/kisten';
 import { fotoUri } from '@/lib/fotos';
 import { codeAnzeige } from '@/lib/kisten-code';
 import { RADIUS, useFarben } from '@/theme/farben';
 
-export function KisteKarte({ kiste, onPress }: { kiste: Kiste; onPress: () => void }) {
+type Props = {
+  kiste: KisteUebersicht;
+  /** Gegenstände, wegen denen die Kiste in der Suche auftaucht. */
+  treffer?: string[];
+  onPress: () => void;
+};
+
+export function KisteKarte({ kiste, treffer = [], onPress }: Props) {
   const f = useFarben();
+  const anzahl = kiste.gegenstaende.length;
   return (
     <Pressable
       accessibilityRole="button"
@@ -26,7 +34,12 @@ export function KisteKarte({ kiste, onPress }: { kiste: Kiste; onPress: () => vo
         <Text style={[styles.titel, { color: f.text }]} numberOfLines={1}>
           {kiste.titel}
         </Text>
-        {kiste.beschreibung ? (
+        {treffer.length > 0 ? (
+          <Text style={[styles.beschreibung, { color: f.text }]} numberOfLines={2}>
+            <Text style={{ color: f.akzent, fontWeight: '600' }}>enthält: </Text>
+            {treffer.join(', ')}
+          </Text>
+        ) : kiste.beschreibung ? (
           <Text style={[styles.beschreibung, { color: f.textLeise }]} numberOfLines={2}>
             {kiste.beschreibung}
           </Text>
@@ -39,6 +52,11 @@ export function KisteKarte({ kiste, onPress }: { kiste: Kiste; onPress: () => vo
                 {kiste.standort}
               </Text>
             </View>
+          ) : null}
+          {anzahl > 0 ? (
+            <Text style={[styles.klein, { color: f.textLeise }]}>
+              {anzahl} {anzahl === 1 ? 'Gegenstand' : 'Gegenstände'}
+            </Text>
           ) : null}
           <Text style={[styles.klein, styles.code, { color: f.textLeise }]}>{codeAnzeige(kiste.code)}</Text>
         </View>

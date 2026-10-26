@@ -29,13 +29,18 @@ export default function KistenListe() {
     <View style={styles.seite}>
       <Stack.Screen
         options={{
-          headerRight: () =>
-            kisten && kisten.length > 0 ? (
-              <View style={styles.kopfKnoepfe}>
-                <KopfKnopf icon="printer-outline" beschriftung="Etiketten drucken" onPress={() => router.push('/etiketten')} />
-                <KopfKnopf icon="qrcode-scan" beschriftung="Kiste scannen" onPress={() => router.push('/scannen')} />
-              </View>
-            ) : null,
+          headerRight: () => (
+            <View style={styles.kopfKnoepfe}>
+              {kisten && kisten.length > 0 ? (
+                <>
+                  <KopfKnopf icon="printer-outline" beschriftung="Etiketten drucken" onPress={() => router.push('/etiketten')} />
+                  <KopfKnopf icon="qrcode-scan" beschriftung="Kiste scannen" onPress={() => router.push('/scannen')} />
+                </>
+              ) : null}
+              {/* Immer sichtbar – auf einem neuen Handy ist die Liste leer, die Sicherung soll trotzdem erreichbar sein. */}
+              <KopfKnopf icon="cog-outline" beschriftung="Einstellungen und Datensicherung" onPress={() => router.push('/einstellungen')} />
+            </View>
+          ),
         }}
       />
       {kisten && kisten.length > 0 ? (
@@ -78,6 +83,9 @@ export default function KistenListe() {
               <Text style={[styles.leerText, { color: f.textLeise }]}>
                 Lege deine erste Kiste an: Foto vom Inhalt machen, kurz beschreiben, Etikett drucken.
               </Text>
+              <Pressable accessibilityRole="link" hitSlop={8} onPress={() => router.push('/einstellungen')}>
+                <Text style={[styles.leerLink, { color: f.akzent }]}>Oder eine Sicherung wiederherstellen</Text>
+              </Pressable>
             </View>
           ) : (
             <View style={styles.leer}>
@@ -135,6 +143,7 @@ const styles = StyleSheet.create({
   leer: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: ABSTAND.s, padding: ABSTAND.l },
   leerTitel: { fontSize: 20, fontWeight: '600' },
   leerText: { fontSize: 15, textAlign: 'center', lineHeight: 21 },
+  leerLink: { fontSize: 15, fontWeight: '600', marginTop: ABSTAND.s },
   neu: {
     position: 'absolute',
     right: ABSTAND.m,

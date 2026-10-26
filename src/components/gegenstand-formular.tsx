@@ -6,10 +6,18 @@ import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { eingabeStil, Feld, formularStile, FotoWaehler, type FotoAuswahl } from '@/components/formular-teile';
+import {
+  eingabeStil,
+  Feld,
+  formularStile,
+  FotoWaehler,
+  MengenWahl,
+  type FotoAuswahl,
+} from '@/components/formular-teile';
 import { Knopf } from '@/components/knopf';
 import {
   gegenstandFormularSchema,
+  MAX_MENGE,
   type GegenstandFormularEingabe,
   type GegenstandFormularWerte,
 } from '@/lib/kisten-formular';
@@ -84,6 +92,14 @@ export function GegenstandFormular({ anfang, anfangsFoto, speichernText, mitWeit
               maxLength={80}
             />
           )}
+        />
+      </Feld>
+
+      <Feld titel="Menge" fehler={errors.menge?.message}>
+        <Controller
+          control={control}
+          name="menge"
+          render={({ field }) => <MengenWahl wert={field.value} max={MAX_MENGE} onAendern={field.onChange} />}
         />
       </Feld>
 

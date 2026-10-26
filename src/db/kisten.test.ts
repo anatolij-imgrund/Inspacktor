@@ -99,9 +99,9 @@ describe('Kisten', () => {
   it('löscht beim Löschen der Kiste ihre Gegenstände mit und nennt alle Fotos', async () => {
     const k = await legeKisteAn(db, { ...daten('Voll'), foto: 'kiste.jpg' }, folge('ABC234'));
     const andere = await legeKisteAn(db, daten('Andere'), folge('XYZ789'));
-    await legeGegenstandAn(db, k.id, { name: 'Jacke', beschreibung: '', foto: 'jacke.jpg' });
-    await legeGegenstandAn(db, k.id, { name: 'Mütze', beschreibung: '', foto: null });
-    await legeGegenstandAn(db, andere.id, { name: 'Bleibt', beschreibung: '', foto: 'bleibt.jpg' });
+    await legeGegenstandAn(db, k.id, { name: 'Jacke', beschreibung: '', menge: 1, foto: 'jacke.jpg' });
+    await legeGegenstandAn(db, k.id, { name: 'Mütze', beschreibung: '', menge: 1, foto: null });
+    await legeGegenstandAn(db, andere.id, { name: 'Bleibt', beschreibung: '', menge: 1, foto: 'bleibt.jpg' });
     assert.deepEqual(await loescheKiste(db, 'ABC234'), ['kiste.jpg', 'jacke.jpg']);
     assert.deepEqual(await gegenstaendeDerKiste(db, k.id), []);
     assert.equal((await gegenstaendeDerKiste(db, andere.id)).length, 1);
@@ -110,7 +110,7 @@ describe('Kisten', () => {
   it('liefert in der Übersicht die Gegenstände je Kiste', async () => {
     const k = await legeKisteAn(db, daten('Voll'), folge('ABC234'));
     await legeKisteAn(db, daten('Leer'), folge('XYZ789'));
-    await legeGegenstandAn(db, k.id, { name: 'Jacke', beschreibung: 'Gr. 116', foto: null });
+    await legeGegenstandAn(db, k.id, { name: 'Jacke', beschreibung: 'Gr. 116', menge: 1, foto: null });
     const liste = await alleKisten(db);
     assert.deepEqual(liste.find((x) => x.code === 'ABC234')?.gegenstaende, [{ name: 'Jacke', beschreibung: 'Gr. 116' }]);
     assert.deepEqual(liste.find((x) => x.code === 'XYZ789')?.gegenstaende, []);

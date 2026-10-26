@@ -5,6 +5,8 @@ export type Gegenstand = {
   kisteId: number;
   name: string;
   beschreibung: string;
+  /** Stückzahl, mindestens 1 (z. B. „3 × Socken“). */
+  menge: number;
   /** Dateiname im App-Ordner „fotos“ oder null. */
   foto: string | null;
   erstelltAm: string;
@@ -14,6 +16,7 @@ export type Gegenstand = {
 export type GegenstandDaten = {
   name: string;
   beschreibung: string;
+  menge: number;
   foto: string | null;
 };
 
@@ -22,12 +25,13 @@ type Zeile = {
   kiste_id: number;
   name: string;
   beschreibung: string;
+  menge: number;
   foto: string | null;
   erstellt_am: string;
   geaendert_am: string;
 };
 
-const SPALTEN = 'id, kiste_id, name, beschreibung, foto, erstellt_am, geaendert_am';
+const SPALTEN = 'id, kiste_id, name, beschreibung, menge, foto, erstellt_am, geaendert_am';
 
 function alsGegenstand(z: Zeile): Gegenstand {
   return {
@@ -35,6 +39,7 @@ function alsGegenstand(z: Zeile): Gegenstand {
     kisteId: z.kiste_id,
     name: z.name,
     beschreibung: z.beschreibung,
+    menge: z.menge,
     foto: z.foto,
     erstelltAm: z.erstellt_am,
     geaendertAm: z.geaendert_am,
@@ -70,11 +75,12 @@ export async function legeGegenstandAn(
   const kiste = await db.getFirstAsync<{ id: number }>('SELECT id FROM kisten WHERE id = ?', kisteId);
   if (!kiste) throw new Error('Kiste nicht gefunden.');
   const ergebnis = await db.runAsync(
-    `INSERT INTO gegenstaende (kiste_id, name, beschreibung, foto, erstellt_am, geaendert_am)
-     VALUES (?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO gegenstaende (kiste_id, name, beschreibung, menge, foto, erstellt_am, geaendert_am)
+     VALUES (?, ?, ?, ?, ?, ?, ?)`,
     kisteId,
     daten.name,
     daten.beschreibung,
+    daten.menge,
     daten.foto,
     zeit,
     zeit,
@@ -95,14 +101,33 @@ export async function aktualisiereGegenstand(
   if (!alt) throw new Error('Gegenstand nicht gefunden.');
   const zeit = jetzt().toISOString();
   await db.runAsync(
-    'UPDATE gegenstaende SET name = ?, beschreibung = ?, foto = ?, geaendert_am = ? WHERE id = ?',
+    'UPDATE gegenstaende SET name = ?, beschreibung = ?, menge = ?, foto = ?, geaendert_am = ? WHERE id = ?',
     daten.name,
     daten.beschreibung,
+    daten.menge,
     daten.foto,
     zeit,
     id,
   );
   await beruehreKiste(db, alt.kisteId, zeit);
+}
+
+/** Legt den Gegenstand in eine andere Kiste. Beide Kisten gelten danach als geändert. */
+export async function verschiebeGegenstand(
+  db: Db,
+  id: number,
+  zielKisteId: number,
+  jetzt: () => Date = () => new Date(),
+): Promise<void> {
+  const alt = await gegenstandNachId(db, id);
+  if (!alt) throw new Error('Gegenstand nicht gefunden.');
+  if (alt.kisteId === zielKisteId) return;
+  const ziel = await db.getFirstAsync<{ id: number }>('SELECT id FROM kisten WHERE id = ?', zielKisteId);
+  if (!ziel) throw new Error('Zielkiste nicht gefunden.');
+  const zeit = jetzt().toISOString();
+  await db.runAsync('UPDATE gegenstaende SET kiste_id = ?, geaendert_am = ? WHERE id = ?', zielKisteId, zeit, id);
+  await beruehreKiste(db, alt.kisteId, zeit);
+  await beruehreKiste(db, zielKisteId, zeit);
 }
 
 /** Löscht den Gegenstand und gibt sein Foto zurück, damit es aufgeräumt werden kann. */

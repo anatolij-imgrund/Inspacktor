@@ -11,7 +11,7 @@ export function GegenstandZeile({ gegenstand, onPress }: { gegenstand: Gegenstan
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={`${gegenstand.name}${gegenstand.beschreibung ? `, ${gegenstand.beschreibung}` : ''}`}
+      accessibilityLabel={`${gegenstand.menge > 1 ? `${gegenstand.menge} mal ` : ''}${gegenstand.name}${gegenstand.beschreibung ? `, ${gegenstand.beschreibung}` : ''}`}
       onPress={onPress}
       style={({ pressed }) => [styles.zeile, { borderColor: f.rand, opacity: pressed ? 0.7 : 1 }]}>
       {gegenstand.foto ? (
@@ -23,6 +23,7 @@ export function GegenstandZeile({ gegenstand, onPress }: { gegenstand: Gegenstan
       )}
       <View style={styles.text}>
         <Text style={[styles.name, { color: f.text }]} numberOfLines={1}>
+          {gegenstand.menge > 1 ? <Text style={{ color: f.akzent }}>{gegenstand.menge} × </Text> : null}
           {gegenstand.name}
         </Text>
         {gegenstand.beschreibung ? (

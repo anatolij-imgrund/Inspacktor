@@ -23,11 +23,21 @@ describe('Kisten-Formular', () => {
 
 describe('Gegenstand-Formular', () => {
   it('verlangt einen Namen und schneidet Leerzeichen ab', () => {
-    assert.deepEqual(gegenstandFormularSchema.parse({ name: ' Jacke ', beschreibung: ' Gr. 116 ' }), {
+    assert.deepEqual(gegenstandFormularSchema.parse({ name: ' Jacke ', beschreibung: ' Gr. 116 ', menge: 2 }), {
       name: 'Jacke',
       beschreibung: 'Gr. 116',
+      menge: 2,
     });
-    const r = gegenstandFormularSchema.safeParse({ name: ' ', beschreibung: '' });
+    const r = gegenstandFormularSchema.safeParse({ name: ' ', beschreibung: '', menge: 1 });
     assert.equal(r.error?.issues[0]?.message, 'Bitte gib dem Gegenstand einen Namen.');
+  });
+
+  it('verlangt eine Menge von 1 bis 999', () => {
+    const fehler = (menge: number) =>
+      gegenstandFormularSchema.safeParse({ name: 'x', beschreibung: '', menge }).error?.issues[0]?.message;
+    assert.equal(fehler(0), 'Die Menge muss mindestens 1 sein.');
+    assert.equal(fehler(1000), 'Die Menge darf höchstens 999 sein.');
+    assert.equal(fehler(1.5), 'Bitte eine ganze Zahl eingeben.');
+    assert.equal(fehler(999), undefined);
   });
 });

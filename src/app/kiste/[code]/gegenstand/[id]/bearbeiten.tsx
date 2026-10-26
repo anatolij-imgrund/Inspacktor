@@ -36,7 +36,7 @@ export default function GegenstandBearbeiten() {
 
   return (
     <GegenstandFormular
-      anfang={{ name: gegenstand.name, beschreibung: gegenstand.beschreibung }}
+      anfang={{ name: gegenstand.name, beschreibung: gegenstand.beschreibung, menge: gegenstand.menge }}
       anfangsFoto={gegenstand.foto}
       speichernText="Änderungen speichern"
       onSpeichern={async (werte, auswahl) => {

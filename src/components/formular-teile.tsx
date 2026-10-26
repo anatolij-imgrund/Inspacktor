@@ -2,7 +2,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import type { ReactNode } from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { Knopf } from '@/components/knopf';
 import { fotoUri } from '@/lib/fotos';
@@ -114,4 +114,43 @@ const styles = StyleSheet.create({
   beschriftung: { fontSize: 14, fontWeight: '600' },
   eingabe: { borderWidth: 1, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 12, fontSize: 16 },
   mehrzeilig: { minHeight: 110 },
+});
+
+/** − Zahl + mit großen Knöpfen; die Zahl lässt sich auch direkt eintippen. */
+export function MengenWahl({ wert, max, onAendern }: { wert: number; max: number; onAendern: (n: number) => void }) {
+  const f = useFarben();
+  const knopf = (icon: 'minus' | 'plus', ziel: number, aus: boolean, label: string) => (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      disabled={aus}
+      onPress={() => onAendern(ziel)}
+      style={({ pressed }) => [
+        mengenStile.knopf,
+        { backgroundColor: f.flaecheHervor, opacity: aus ? 0.4 : pressed ? 0.7 : 1 },
+      ]}>
+      <MaterialCommunityIcons name={icon} size={24} color={f.text} />
+    </Pressable>
+  );
+  return (
+    <View style={mengenStile.reihe}>
+      {knopf('minus', Math.max(1, wert - 1), wert <= 1, 'Menge verringern')}
+      <TextInput
+        accessibilityLabel="Menge"
+        value={wert > 0 ? String(wert) : ''}
+        onChangeText={(text) => onAendern(Number(text.replace(/\D/g, '')) || 0)}
+        keyboardType="number-pad"
+        maxLength={String(max).length}
+        selectTextOnFocus
+        style={[eingabeStil(f), mengenStile.zahl]}
+      />
+      {knopf('plus', Math.min(max, wert + 1), wert >= max, 'Menge erhöhen')}
+    </View>
+  );
+}
+
+const mengenStile = StyleSheet.create({
+  reihe: { flexDirection: 'row', alignItems: 'center', gap: ABSTAND.s },
+  knopf: { width: 52, height: 52, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  zahl: { width: 80, textAlign: 'center', fontSize: 20, fontWeight: '700' },
 });

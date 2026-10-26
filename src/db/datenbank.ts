@@ -27,6 +27,7 @@ const MIGRATIONEN: string[] = [
      geaendert_am  TEXT NOT NULL
    );
    CREATE INDEX gegenstaende_kiste ON gegenstaende(kiste_id);`,
+  `ALTER TABLE gegenstaende ADD COLUMN menge INTEGER NOT NULL DEFAULT 1;`,
 ];
 
 export const SCHEMA_VERSION = MIGRATIONEN.length;

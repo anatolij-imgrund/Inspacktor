@@ -70,7 +70,10 @@ export default function GegenstandAnsehen() {
           <MaterialCommunityIcons name="image-off-outline" size={40} color={f.textLeise} />
         </View>
       )}
-      <Text style={[styles.name, { color: f.text }]}>{gegenstand.name}</Text>
+      <Text style={[styles.name, { color: f.text }]}>
+        {gegenstand.menge > 1 ? <Text style={{ color: f.akzent }}>{gegenstand.menge} × </Text> : null}
+        {gegenstand.name}
+      </Text>
       {gegenstand.beschreibung ? (
         <Text style={[styles.beschreibung, { color: f.text }]}>{gegenstand.beschreibung}</Text>
       ) : (
@@ -84,6 +87,17 @@ export default function GegenstandAnsehen() {
           onPress={() =>
             router.push({
               pathname: '/kiste/[code]/gegenstand/[id]/bearbeiten',
+              params: { code, id: String(gegenstand.id) },
+            })
+          }
+        />
+        <Knopf
+          titel="In andere Kiste verschieben"
+          icon="swap-horizontal"
+          art="neben"
+          onPress={() =>
+            router.push({
+              pathname: '/kiste/[code]/gegenstand/[id]/verschieben',
               params: { code, id: String(gegenstand.id) },
             })
           }

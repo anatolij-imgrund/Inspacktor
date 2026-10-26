@@ -39,6 +39,7 @@ function Navigation() {
         <Stack.Screen name="neue-kiste" options={{ title: 'Neue Kiste' }} />
         <Stack.Screen name="kiste/[code]/index" options={{ title: '' }} />
         <Stack.Screen name="kiste/[code]/bearbeiten" options={{ title: 'Kiste bearbeiten' }} />
+        <Stack.Screen name="etiketten" options={{ title: 'Etiketten drucken' }} />
       </Stack>
     </ThemeProvider>
   );

@@ -6,10 +6,12 @@ import { useCallback, useState } from 'react';
 import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { EtikettAktionen } from '@/components/etikett-aktionen';
 import { Knopf } from '@/components/knopf';
+import { QrCode } from '@/components/qr-code';
 import { kisteNachCode, loescheKiste, type Kiste } from '@/db/kisten';
 import { fotoUri, loescheFoto } from '@/lib/fotos';
-import { codeAnzeige, normalisiereCode } from '@/lib/kisten-code';
+import { codeAnzeige, normalisiereCode, qrInhalt } from '@/lib/kisten-code';
 import { ABSTAND, RADIUS, useFarben } from '@/theme/farben';
 
 export default function KisteAnsehen() {
@@ -99,6 +101,27 @@ export default function KisteAnsehen() {
         </Text>
       </View>
 
+      <View style={[styles.karte, { backgroundColor: f.flaeche }]}>
+        <Text style={[styles.abschnitt, { color: f.textLeise }]}>Etikett</Text>
+        <View style={styles.etikett}>
+          <View style={styles.qrRahmen}>
+            <QrCode inhalt={qrInhalt(kiste.code)} groesse={132} />
+          </View>
+          <View style={styles.etikettText}>
+            <Text style={[styles.etikettTitel, { color: f.text }]} numberOfLines={3}>
+              {kiste.titel}
+            </Text>
+            {kiste.standort ? (
+              <Text style={{ color: f.textLeise }} numberOfLines={1}>
+                {kiste.standort}
+              </Text>
+            ) : null}
+            <Text style={[styles.code, styles.etikettCode, { color: f.text }]}>{codeAnzeige(kiste.code)}</Text>
+          </View>
+        </View>
+        <EtikettAktionen kisten={[kiste]} />
+      </View>
+
       <View style={styles.knoepfe}>
         <Knopf
           titel="Bearbeiten"
@@ -126,4 +149,9 @@ const styles = StyleSheet.create({
   abschnitt: { fontSize: 13, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 0.5 },
   beschreibung: { fontSize: 16, lineHeight: 23 },
   knoepfe: { gap: ABSTAND.s },
+  etikett: { flexDirection: 'row', alignItems: 'center', gap: ABSTAND.m, marginBottom: ABSTAND.s },
+  qrRahmen: { borderRadius: 8, overflow: 'hidden' },
+  etikettText: { flex: 1, gap: 4 },
+  etikettTitel: { fontSize: 18, fontWeight: '700' },
+  etikettCode: { fontSize: 16, fontWeight: '700', letterSpacing: 1 },
 });

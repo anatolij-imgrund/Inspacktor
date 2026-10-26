@@ -1,11 +1,12 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { router, useFocusEffect } from 'expo-router';
+import { router, Stack, useFocusEffect } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { KisteKarte } from '@/components/kiste-karte';
+import { KopfKnopf } from '@/components/kopf-knopf';
 import { alleKisten, filtereKisten, type Kiste } from '@/db/kisten';
 import { ABSTAND, useFarben } from '@/theme/farben';
 
@@ -26,6 +27,14 @@ export default function KistenListe() {
 
   return (
     <View style={styles.seite}>
+      <Stack.Screen
+        options={{
+          headerRight: () =>
+            kisten && kisten.length > 0 ? (
+              <KopfKnopf icon="printer-outline" beschriftung="Etiketten drucken" onPress={() => router.push('/etiketten')} />
+            ) : null,
+        }}
+      />
       {kisten && kisten.length > 0 ? (
         <View style={[styles.suche, { backgroundColor: f.flaeche, borderColor: f.rand }]}>
           <MaterialCommunityIcons name="magnify" size={22} color={f.textLeise} />

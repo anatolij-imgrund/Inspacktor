@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "Vorratsliste",
+    "slug": "vorratsliste",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "vorratsliste",
+    "userInterfaceStyle": "automatic",
+    "platforms": ["android"],
+    "android": {
+      "package": "de.imgrund.vorratsliste",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#1F2A24",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "blockedPermissions": ["android.permission.RECORD_AUDIO"],
+      "predictiveBackGestureEnabled": false
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Die Kamera wird zum Scannen der QR-Codes auf deinen Kisten benötigt.",
+          "recordAudioAndroid": false
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "Die Kamera wird für Fotos vom Kisteninhalt benötigt.",
+          "photosPermission": "Der Zugriff auf deine Fotos wird benötigt, um ein Bild für eine Kiste auszuwählen.",
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#1F2A24",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 76
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}

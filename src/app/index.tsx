@@ -31,7 +31,10 @@ export default function KistenListe() {
         options={{
           headerRight: () =>
             kisten && kisten.length > 0 ? (
-              <KopfKnopf icon="printer-outline" beschriftung="Etiketten drucken" onPress={() => router.push('/etiketten')} />
+              <View style={styles.kopfKnoepfe}>
+                <KopfKnopf icon="printer-outline" beschriftung="Etiketten drucken" onPress={() => router.push('/etiketten')} />
+                <KopfKnopf icon="qrcode-scan" beschriftung="Kiste scannen" onPress={() => router.push('/scannen')} />
+              </View>
             ) : null,
         }}
       />
@@ -83,6 +86,21 @@ export default function KistenListe() {
         }
       />
 
+      {kisten && kisten.length > 0 ? (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Kiste scannen"
+          onPress={() => router.push('/scannen')}
+          style={({ pressed }) => [
+            styles.neu,
+            styles.scannen,
+            { backgroundColor: f.flaecheHervor, bottom: ABSTAND.l + unten, opacity: pressed ? 0.85 : 1 },
+          ]}>
+          <MaterialCommunityIcons name="qrcode-scan" size={22} color={f.text} />
+          <Text style={[styles.neuText, { color: f.text }]}>Scannen</Text>
+        </Pressable>
+      ) : null}
+
       <Pressable
         accessibilityRole="button"
         accessibilityLabel="Neue Kiste anlegen"
@@ -100,6 +118,7 @@ export default function KistenListe() {
 
 const styles = StyleSheet.create({
   seite: { flex: 1 },
+  kopfKnoepfe: { flexDirection: 'row', gap: 4 },
   suche: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -126,5 +145,6 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     elevation: 4,
   },
+  scannen: { right: undefined, left: ABSTAND.m },
   neuText: { fontSize: 16, fontWeight: '700' },
 });

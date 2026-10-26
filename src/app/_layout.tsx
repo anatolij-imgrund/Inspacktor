@@ -6,6 +6,9 @@ import { useColorScheme } from 'react-native';
 import { DATENBANK_NAME, initialisiere } from '@/db/datenbank';
 import { FARBEN } from '@/theme/farben';
 
+/** Öffnet die Handy-Kamera einen Kisten-Link, liegt die Übersicht darunter – „Zurück“ landet dort. */
+export const unstable_settings = { anchor: 'index' };
+
 export default function RootLayout() {
   return (
     <SQLiteProvider databaseName={DATENBANK_NAME} onInit={initialisiere}>
@@ -40,6 +43,15 @@ function Navigation() {
         <Stack.Screen name="kiste/[code]/index" options={{ title: '' }} />
         <Stack.Screen name="kiste/[code]/bearbeiten" options={{ title: 'Kiste bearbeiten' }} />
         <Stack.Screen name="etiketten" options={{ title: 'Etiketten drucken' }} />
+        <Stack.Screen
+          name="scannen"
+          options={{
+            title: 'Kiste scannen',
+            headerStyle: { backgroundColor: '#000' },
+            headerTintColor: '#fff',
+            contentStyle: { backgroundColor: '#000' },
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );

@@ -13,7 +13,10 @@ export const unstable_settings = { anchor: 'index' };
 export default function RootLayout() {
   return (
     // KeyboardProvider meldet die Tastatur an die Formulare, damit Felder nicht verdeckt werden.
-    <KeyboardProvider>
+    // Die drei Schalter sagen ihm, dass die App „von Kante zu Kante“ zeichnet (Standard ab Android 15
+    // und in Expo SDK 58). Ohne sie stellt er Android auf undurchsichtige System-Leisten um:
+    // weiße Leisten im dunklen Design und doppelter Abstand unter der Statusleiste.
+    <KeyboardProvider statusBarTranslucent navigationBarTranslucent preserveEdgeToEdge>
       <SQLiteProvider databaseName={DATENBANK_NAME} onInit={initialisiere}>
         {/* SQLiteProvider ist memo – alles Theme-Abhängige muss darunter in eigener Komponente leben. */}
         <Navigation />

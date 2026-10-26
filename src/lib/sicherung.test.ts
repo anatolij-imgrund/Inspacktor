@@ -57,7 +57,7 @@ beforeEach(async () => {
 
 describe('Sicherung erstellen', () => {
   it('enthält alle Kisten mit Gegenständen, Menge und Fotos', () => {
-    assert.equal(daten.format, 'vorratsliste-sicherung');
+    assert.equal(daten.format, 'inspacktor-sicherung');
     assert.equal(daten.erstelltAm, '2026-10-26T12:00:00.000Z');
     assert.equal(daten.appVersion, '0.1.0');
     assert.deepEqual(daten.kisten.map((k) => k.code), ['ABC234', 'XYZ789']);
@@ -72,7 +72,7 @@ describe('Sicherung erstellen', () => {
   });
 
   it('benennt die Datei mit Datum', () => {
-    assert.equal(sicherungDateiname(new Date(2026, 9, 6)), 'Vorratsliste-Sicherung-2026-10-06.zip');
+    assert.equal(sicherungDateiname(new Date(2026, 9, 6)), 'Inspacktor-Sicherung-2026-10-06.zip');
   });
 });
 
@@ -164,6 +164,12 @@ describe('Ungültige Sicherungen', () => {
 
   it('erkennt beschädigtes JSON', () => {
     assert.match(meldung(zipSync({ 'daten.json': strToU8('{kaputt') })), /beschädigt/);
+  });
+
+  it('liest Sicherungen aus der Zeit als „Vorratsliste“', () => {
+    const alt = entpackeSicherung(alsZip({ ...daten, format: 'vorratsliste-sicherung' }));
+    assert.equal(alt.daten.format, 'inspacktor-sicherung');
+    assert.equal(alt.daten.kisten.length, 2);
   });
 
   it('meldet Sicherungen aus einer neueren App-Version verständlich', () => {

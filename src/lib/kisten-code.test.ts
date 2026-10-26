@@ -43,8 +43,17 @@ describe('Kisten-Code', () => {
 
   it('liest unseren QR-Link und den nackten Code', () => {
     assert.equal(codeAusQr(qrInhalt('K7QF3M')), 'K7QF3M');
+    assert.equal(codeAusQr('INSPACKTOR://kiste/k7qf3m'), 'K7QF3M');
+    assert.equal(codeAusQr('inspacktor://kiste/K7QF3M?x=1'), 'K7QF3M');
+  });
+
+  it('erzeugt neue Etiketten mit inspacktor://', () => {
+    assert.equal(qrInhalt('K7QF3M'), 'inspacktor://kiste/K7QF3M');
+  });
+
+  it('liest weiterhin Etiketten aus der Zeit als „Vorratsliste“', () => {
+    assert.equal(codeAusQr('vorratsliste://kiste/K7QF3M'), 'K7QF3M');
     assert.equal(codeAusQr('VORRATSLISTE://kiste/k7qf3m'), 'K7QF3M');
-    assert.equal(codeAusQr('vorratsliste://kiste/K7QF3M?x=1'), 'K7QF3M');
     assert.equal(codeAusQr('K7QF3M'), 'K7QF3M');
   });
 

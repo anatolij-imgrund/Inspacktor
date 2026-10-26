@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "Vorratsliste",
-    "slug": "vorratsliste",
+    "name": "Inspacktor",
+    "slug": "inspacktor",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "vorratsliste",
+    "scheme": ["inspacktor", "vorratsliste"],
     "userInterfaceStyle": "automatic",
     "platforms": ["android"],
     "android": {
-      "package": "de.imgrund.vorratsliste",
+      "package": "de.inspacktor.app",
       "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#1F2A24",

@@ -7,7 +7,10 @@ export const CODE_ZEICHEN = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 export const CODE_LAENGE = 6;
 
 /** Präfix im QR-Code, damit auch die normale Handy-Kamera die App öffnen kann. */
-export const QR_PRAEFIX = 'vorratsliste://kiste/';
+export const QR_PRAEFIX = 'inspacktor://kiste/';
+
+/** Etiketten aus der Zeit, als die App noch „Vorratsliste“ hieß – sie sollen weiter funktionieren. */
+const ALTE_QR_PRAEFIXE = ['vorratsliste://kiste/'];
 
 export function erzeugeKistenCode(zufall: () => number = Math.random): string {
   let code = '';
@@ -31,12 +34,16 @@ export function qrInhalt(code: string): string {
 
 /**
  * Liest einen gescannten QR-Code. Akzeptiert unseren Link
- * („vorratsliste://kiste/K7QF3M“) und den nackten Code. Fremde QR-Codes → null.
+ * („inspacktor://kiste/K7QF3M“, auch den alten „vorratsliste://…“) und den nackten Code.
+ * Fremde QR-Codes → null.
  */
 export function codeAusQr(daten: string): string | null {
   const text = daten.trim();
-  if (text.toLowerCase().startsWith(QR_PRAEFIX)) {
-    return normalisiereCode(text.slice(QR_PRAEFIX.length).split(/[/?#]/)[0] ?? '');
+  const klein = text.toLowerCase();
+  for (const praefix of [QR_PRAEFIX, ...ALTE_QR_PRAEFIXE]) {
+    if (klein.startsWith(praefix)) {
+      return normalisiereCode(text.slice(praefix.length).split(/[/?#]/)[0] ?? '');
+    }
   }
   if (text.includes(':') || text.includes('/')) return null;
   return normalisiereCode(text);

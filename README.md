@@ -1,4 +1,4 @@
-# Vorratsliste
+# Inspacktor
 
 Android-App zum Verwalten von Kisten: Jede Kiste bekommt Foto, Titel,
 Standort und Beschreibung sowie ein QR-Etikett. Scannt man das Etikett,

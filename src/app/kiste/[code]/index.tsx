@@ -18,7 +18,7 @@ import { ABSTAND, RADIUS, useFarben } from '@/theme/farben';
 
 export default function KisteAnsehen() {
   const params = useLocalSearchParams<{ code: string }>();
-  // Auch Links mit kleingeschriebenem Code („vorratsliste://kiste/k7qf3m“) sollen funktionieren.
+  // Auch Links mit kleingeschriebenem Code („inspacktor://kiste/k7qf3m“) sollen funktionieren.
   const code = normalisiereCode(params.code ?? '') ?? params.code ?? '';
   const db = useSQLiteContext();
   const f = useFarben();

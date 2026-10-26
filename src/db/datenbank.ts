@@ -3,7 +3,7 @@ import type { SQLiteDatabase } from 'expo-sqlite';
 /** Der Teil von expo-sqlite, den wir nutzen – so lässt sich in Tests node:sqlite unterschieben. */
 export type Db = Pick<SQLiteDatabase, 'execAsync' | 'runAsync' | 'getFirstAsync' | 'getAllAsync'>;
 
-export const DATENBANK_NAME = 'vorratsliste.db';
+export const DATENBANK_NAME = 'inspacktor.db';
 
 /** Jede Migration hebt PRAGMA user_version um genau eins. Nie nachträglich ändern, nur anhängen. */
 const MIGRATIONEN: string[] = [

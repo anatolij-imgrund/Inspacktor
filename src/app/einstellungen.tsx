@@ -213,7 +213,7 @@ export default function Einstellungen() {
           <Text style={[styles.titel, { color: f.text }]}>Über die App</Text>
         </View>
         <Text style={[styles.text, { color: f.textLeise }]}>
-          {Constants.expoConfig?.name ?? 'Vorratsliste'} · Version {Constants.expoConfig?.version ?? '?'}
+          {Constants.expoConfig?.name ?? 'Inspacktor'} · Version {Constants.expoConfig?.version ?? '?'}
         </Text>
         <Text style={[styles.text, { color: f.textLeise }]}>
           Alle Daten bleiben auf deinem Gerät. Es gibt kein Konto und keinen Server.

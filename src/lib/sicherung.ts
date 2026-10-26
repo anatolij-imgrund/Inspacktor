@@ -10,7 +10,10 @@ import { CODE_LAENGE, CODE_ZEICHEN } from '@/lib/kisten-code';
  *   fotos/…    – die Fotos, auf die daten.json verweist
  * Bewusst einfach gehalten, damit man die Datei auch am PC öffnen und lesen kann.
  */
-export const SICHERUNG_FORMAT = 'vorratsliste-sicherung';
+export const SICHERUNG_FORMAT = 'inspacktor-sicherung';
+/** Sicherungen aus der Zeit, als die App noch „Vorratsliste“ hieß – gleicher Aufbau. */
+const ALTE_FORMATE = ['vorratsliste-sicherung'] as const;
+const BEKANNTE_FORMATE: readonly string[] = [SICHERUNG_FORMAT, ...ALTE_FORMATE];
 export const SICHERUNG_VERSION = 1;
 const DATEN_DATEI = 'daten.json';
 const FOTO_ORDNER = 'fotos/';
@@ -43,7 +46,8 @@ const kisteSchema = z.object({
 });
 
 export const sicherungSchema = z.object({
-  format: z.literal(SICHERUNG_FORMAT),
+  // Alte Formatnamen werden beim Lesen auf den neuen umgestellt.
+  format: z.enum([SICHERUNG_FORMAT, ...ALTE_FORMATE]).transform((): typeof SICHERUNG_FORMAT => SICHERUNG_FORMAT),
   version: z.literal(SICHERUNG_VERSION),
   erstelltAm: zeitpunkt,
   appVersion: z.string().max(40),
@@ -149,7 +153,7 @@ export function entpackeSicherung(bytes: Uint8Array): { daten: SicherungDaten; f
   } catch {
     throw new SicherungFehler('„daten.json“ ist beschädigt.');
   }
-  if (typeof roh === 'object' && roh !== null && 'format' in roh && roh.format === SICHERUNG_FORMAT) {
+  if (typeof roh === 'object' && roh !== null && 'format' in roh && BEKANNTE_FORMATE.includes(String(roh.format))) {
     const version = 'version' in roh ? roh.version : undefined;
     if (typeof version === 'number' && version > SICHERUNG_VERSION) {
       throw new SicherungFehler('Die Sicherung stammt aus einer neueren App-Version. Bitte zuerst die App aktualisieren.');
@@ -258,8 +262,8 @@ export async function verwendeteFotos(db: Db): Promise<Set<string>> {
   return new Set(zeilen.map((z) => z.foto));
 }
 
-/** „Vorratsliste-Sicherung-2026-10-26.zip“ */
+/** „Inspacktor-Sicherung-2026-10-26.zip“ */
 export function sicherungDateiname(datum: Date = new Date()): string {
   const d = (n: number) => String(n).padStart(2, '0');
-  return `Vorratsliste-Sicherung-${datum.getFullYear()}-${d(datum.getMonth() + 1)}-${d(datum.getDate())}.zip`;
+  return `Inspacktor-Sicherung-${datum.getFullYear()}-${d(datum.getMonth() + 1)}-${d(datum.getDate())}.zip`;
 }

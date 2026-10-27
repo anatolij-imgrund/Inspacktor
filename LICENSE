@@ -1,11 +1,40 @@
 Copyright (c) 2026 Anatolij Imgrund
+Alle Rechte vorbehalten. / All rights reserved.
 
-Alle Rechte vorbehalten.
+DEUTSCH
 
-Der Quellcode dieses Projekts ist zur Ansicht öffentlich zugänglich.
-Ohne vorherige schriftliche Zustimmung des Rechteinhabers ist es nicht
+Der Quellcode von Inspacktor ist öffentlich einsehbar, damit sich die Arbeit
+daran nachvollziehen lässt. Er ist keine freie Software.
+
+Ohne vorherige schriftliche Erlaubnis des Rechteinhabers ist es nicht
 gestattet, den Code oder Teile davon zu kopieren, zu verändern, zu
-verbreiten, zu veröffentlichen oder kommerziell zu nutzen.
+verbreiten, unter eigenem Namen zu veröffentlichen, in App-Stores
+anzubieten oder kommerziell zu nutzen. Das gilt ebenso für das App-Icon
+und den Namen „Inspacktor“.
 
-Enthaltene Bibliotheken von Drittanbietern unterliegen ihren jeweiligen
-Lizenzen.
+Ansehen und das Erstellen von Forks auf GitHub im Rahmen der
+GitHub-Nutzungsbedingungen bleiben davon unberührt.
+
+Ausgenommen sind Bestandteile Dritter: Die eingebundenen Bibliotheken
+stehen unter ihren eigenen Lizenzen. Teile des Projektgerüsts stammen aus
+der Vorlage von create-expo-app (650 Industries, Inc., MIT-Lizenz).
+
+Anfragen zur Nutzung bitte über GitHub:
+https://github.com/anatolij-imgrund
+
+ENGLISH
+
+The source code of Inspacktor is publicly visible so that the work behind
+it can be reviewed. It is not free software.
+
+Without prior written permission from the copyright holder you may not
+copy, modify, distribute, republish under your own name, offer in app
+stores or use commercially the code or any part of it. The same applies
+to the app icon and the name "Inspacktor".
+
+Viewing the code and forking it on GitHub as permitted by the GitHub
+Terms of Service remain unaffected.
+
+Third-party components are excluded: the bundled libraries are subject to
+their own licenses. Parts of the project scaffold come from the
+create-expo-app template (650 Industries, Inc., MIT License).

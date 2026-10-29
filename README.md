@@ -34,6 +34,17 @@ und erfährt, in welcher Kiste sie liegt.
 
 Der Name ist ein Wortspiel aus *Inspektor* und *packen*.
 
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/uebersicht.jpg" width="200" alt="Übersicht mit Kisten, Fotos, Standort und Code">
+  <img src="docs/screenshots/kiste.jpg" width="200" alt="Kiste mit Foto, Beschreibung und Gegenständen">
+  <img src="docs/screenshots/scannen.jpg" width="200" alt="Scanner mit eingeschaltetem Licht vor einem echten Etikett">
+  <img src="docs/screenshots/etiketten.jpg" width="200" alt="Etiketten für mehrere Kisten auswählen und drucken">
+  <img src="docs/screenshots/einstellungen.jpg" width="200" alt="Einstellungen mit Datensicherung und Wiederherstellen">
+</p>
+<p align="center"><sub>Echte Kisten und Taschen von Dachboden und Keller; der Scanner liest ein gedrucktes Etikett in einer Schutzhülle.</sub></p>
+
 ## Funktionen
 
 **Kisten und Inhalt**
@@ -74,6 +85,11 @@ Der Name ist ein Wortspiel aus *Inspektor* und *packen*.
 **Darstellung**
 - Hell und dunkel nach Einstellung des Handys
 
+<details>
+<summary><strong>Beispiel: Etikettenbogen</strong> (erfundene Daten)</summary>
+<p align="center"><img src="docs/etiketten-beispiel.png" width="560" alt="Ausschnitt eines A4-Bogens mit vier QR-Etiketten"></p>
+</details>
+
 ## Datenschutz
 
 Alle Daten bleiben auf dem Handy. Inspacktor hat **kein Konto, keinen Server
@@ -81,6 +97,7 @@ und keine Werbung**, und ich als Entwickler erhalte keine Daten. Einzige
 Ausnahme: Der QR-Scanner nutzt unter Android Google ML Kit, das Google
 technische Nutzungs- und Leistungsdaten senden kann. Kamerabilder und
 gescannte Codes bleiben auf dem Handy.
+Details in der [Datenschutzerklärung](https://anatolij-imgrund.github.io/Inspacktor/datenschutz.html).
 
 Die App fragt nur nach einer Berechtigung, der **Kamera**, und erst dann, wenn
 man zum ersten Mal scannt oder ein Foto macht. Fotos aus der Galerie wählt man
@@ -118,6 +135,8 @@ src/
 ├── lib/          Kisten-Code, QR, Etiketten, Fotos, Sicherung
 └── theme/        Farben hell/dunkel, Abstände
 assets/icon-quelle/   SVG-Quellen des App-Icons
+docs/             Datenschutzseite (GitHub Pages) und Bilder fürs README
+store/            Texte, Grafiken und Antworten für Google Play
 ```
 
 Tests liegen direkt neben dem Code (`*.test.ts`).
@@ -185,6 +204,8 @@ npx eas-cli@latest build -p android --profile production   # App Bundle für Goo
 - [ ] Beim Verschieben die Zielkiste per QR-Code scannen
 - [ ] Mehrere Gegenstände auf einmal verschieben
 - [ ] Version für iPhone
+
+Was sich in welcher Version geändert hat, steht in [CHANGELOG.md](CHANGELOG.md).
 
 ## Über das Projekt
 

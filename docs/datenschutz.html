@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Datenschutz – Inspacktor</title>
+<meta name="description" content="Datenschutzerklärung der App Inspacktor: Alle Kisten, Gegenstände und Fotos bleiben auf dem Handy.">
+<link rel="icon" href="icon.png">
+<style>
+  :root {
+    --bg: #F6F3EC; --surface: #FFFFFF; --ink: #1F2A24; --muted: #5E6A62;
+    --line: #D9D1C0; --accent: #8A5518; --accent-soft: #EDE7DA;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121815; --surface: #1B231F; --ink: #ECEFEA; --muted: #A3AFA8;
+      --line: #33403A; --accent: #E0A458; --accent-soft: #25302A;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 40px 16px 64px; }
+  header { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+  header img { width: 48px; height: 48px; border-radius: 12px; }
+  h1 { font-size: 30px; line-height: 1.2; margin: 0; letter-spacing: -0.4px; }
+  .stand { color: var(--muted); margin: 4px 0 28px; font-size: 15px; }
+  h2 { font-size: 20px; margin: 36px 0 8px; }
+  p, ul { margin: 0 0 12px; }
+  ul { padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  a { color: var(--accent); }
+  .kurz {
+    background: var(--accent-soft); border-radius: 12px; padding: 16px 18px; margin: 0 0 8px;
+  }
+  .kurz p:last-child { margin-bottom: 0; }
+  .karte {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 18px; margin: 12px 0;
+  }
+  footer { margin-top: 48px; color: var(--muted); font-size: 15px; border-top: 1px solid var(--line); padding-top: 16px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img src="icon.png" alt="">
+    <h1>Datenschutz bei Inspacktor</h1>
+  </header>
+  <p class="stand">Stand: 29. Oktober 2026 · gilt für die Android-App Inspacktor ab Version 1.0</p>
+
+  <div class="kurz">
+    <p><strong>Kurz gesagt:</strong> Alles, was du in Inspacktor einträgst, bleibt auf deinem Handy:
+    Kisten, Gegenstände und Fotos. Es gibt kein Konto, keinen Server des Entwicklers, keine Werbung
+    und keine Auswertung deines Verhaltens. Ich als Entwickler erhalte keine deiner Daten.</p>
+    <p>Die einzige Ausnahme ist technisch: Der QR-Scanner nutzt ML Kit von Google, und ML Kit
+    schickt Google technische Nutzungs- und Leistungsdaten. Kamerabilder und gescannte Codes
+    sind nicht dabei. Details stehen unten.</p>
+  </div>
+
+  <h2>Verantwortlich</h2>
+  <div class="karte">
+    <p>Anatolij Imgrund<br>
+    E-Mail: <a href="mailto:anatolij.imgrund@gmail.com">anatolij.imgrund@gmail.com</a></p>
+  </div>
+
+  <h2>Was die App speichert, und wo</h2>
+  <p>Inspacktor speichert deine Einträge in einer Datenbank im privaten Speicher der App auf
+  deinem Handy. Andere Apps haben darauf keinen Zugriff. Dazu gehören:</p>
+  <ul>
+    <li>Kisten: Titel, Standort, Beschreibung, Foto und der Code auf dem Etikett</li>
+    <li>Gegenstände in den Kisten: Name, Beschreibung, Menge und Foto</li>
+    <li>Fotos, die du aufnimmst oder auswählst (verkleinert, im privaten App-Ordner)</li>
+  </ul>
+  <p>Die Daten bleiben gespeichert, bis du sie in der App löschst oder die App
+  deinstallierst. Beim Deinstallieren löscht Android alles, was zur App gehört.</p>
+
+  <h2>Berechtigungen</h2>
+  <ul>
+    <li><strong>Kamera:</strong> zum Scannen der QR-Etiketten und für Fotos von Kisten und
+      Gegenständen. Die App fragt erst, wenn du zum ersten Mal scannst oder ein Foto machst.
+      Das Kamerabild beim Scannen wird nicht gespeichert.</li>
+    <li><strong>Fotos aus der Galerie</strong> wählst du über die Bildauswahl von Android.
+      Die App sieht dabei nur die Bilder, die du auswählst.</li>
+    <li><strong>Ordner für PDF und Sicherung:</strong> Die App darf nur in den Ordner
+      schreiben, den du selbst auswählst, und nur die Datei lesen, die du zum
+      Wiederherstellen auswählst.</li>
+  </ul>
+  <p>Inspacktor nutzt kein Mikrofon, keinen Standort, keine Kontakte und keinen allgemeinen
+  Zugriff auf deinen Speicher. Der Standort einer Kiste („Dachboden“, „Keller“) ist nur
+  ein Text, den du selbst einträgst.</p>
+
+  <h2>QR-Scanner mit Google ML Kit</h2>
+  <p>Zum Erkennen der QR-Codes nutzt die App <a href="https://developers.google.com/ml-kit">ML Kit</a>
+  von Google. Das Erkennungsmodell ist in der App enthalten.
+  <strong>Das Kamerabild und der gescannte Code werden ausschließlich auf deinem Handy
+  verarbeitet und nicht an Google gesendet.</strong></p>
+  <p>ML Kit sendet jedoch technische Angaben an Google, mit denen Google die Erkennung
+  überwacht und verbessert: Angaben zum Gerät und zur App (z. B. Modell,
+  Android-Version, App-Version), eine zufällige Kennung pro Installation bzw. pro
+  Scanvorgang, die nicht dazu gedacht ist, dich oder dein Gerät zu identifizieren, sowie
+  Leistungswerte wie die Dauer der Erkennung und Fehlercodes. Die Übertragung ist
+  verschlüsselt. Google gibt diese Daten nach eigener Aussage nicht an Dritte weiter. Ich
+  als Entwickler sehe sie nicht.</p>
+  <p>Grundlage ist das berechtigte Interesse an einem funktionierenden, stabilen Scanner
+  (Art. 6 Abs. 1 lit. f DSGVO). Wenn du das nicht möchtest, kannst du den Code eines
+  Etiketts auch von Hand eintippen. Dann läuft keine Erkennung. Mehr dazu:
+  <a href="https://developers.google.com/ml-kit/terms">Nutzungsbedingungen von ML Kit</a>,
+  <a href="https://developers.google.com/ml-kit/android-data-disclosure">Angaben von Google zur Datenerhebung</a>
+  und die <a href="https://policies.google.com/privacy">Datenschutzerklärung von Google</a>.</p>
+
+  <h2>Wenn du selbst etwas teilst</h2>
+  <p>Etiketten als PDF und die Datensicherung kannst du über das Teilen-Menü von Android
+  verschicken oder ablegen, z. B. per E-Mail oder in Google Drive, oder an einen Drucker
+  senden. Das geschieht nur, wenn du es auslöst. Für die weitere Verarbeitung gelten dann
+  die Bedingungen des Dienstes oder Druckers, den du wählst. Eine Sicherung enthält alle
+  Kisten, Gegenstände und Fotos. Bewahre sie deshalb so auf, wie du auch die Fotos selbst
+  aufbewahren würdest.</p>
+
+  <h2>Deine Rechte</h2>
+  <p>Nach der DSGVO hast du das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung
+  der Verarbeitung, Datenübertragbarkeit und Widerspruch. Da deine Einträge nur auf deinem
+  Handy liegen, kannst du sie dort jederzeit selbst ansehen, ändern, als Sicherung
+  exportieren und löschen. Zu den Daten, die ML Kit an Google sendet, wende dich bitte an
+  Google. Du hast außerdem das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu
+  beschweren.</p>
+
+  <h2>Änderungen</h2>
+  <p>Ändert sich etwas an der App, das den Datenschutz betrifft, passe ich diese Seite an.
+  Das Datum oben zeigt den aktuellen Stand.</p>
+
+  <footer>
+    Inspacktor · <a href="https://github.com/anatolij-imgrund/Inspacktor">Projekt auf GitHub</a>
+  </footer>
+</main>
+</body>
+</html>

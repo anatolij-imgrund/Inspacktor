@@ -39,6 +39,7 @@ Der Name ist ein Wortspiel aus *Inspektor* und *packen*.
 <p align="center">
   <img src="docs/screenshots/uebersicht.jpg" width="200" alt="Übersicht mit Kisten, Fotos, Standort und Code">
   <img src="docs/screenshots/kiste.jpg" width="200" alt="Kiste mit Foto, Beschreibung und Gegenständen">
+  <img src="docs/screenshots/gegenstand.jpg" width="200" alt="Einzelner Gegenstand mit Foto">
   <img src="docs/screenshots/scannen.jpg" width="200" alt="Scanner mit eingeschaltetem Licht vor einem echten Etikett">
   <img src="docs/screenshots/etiketten.jpg" width="200" alt="Etiketten für mehrere Kisten auswählen und drucken">
   <img src="docs/screenshots/einstellungen.jpg" width="200" alt="Einstellungen mit Datensicherung und Wiederherstellen">
